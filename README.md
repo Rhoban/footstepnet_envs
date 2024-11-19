@@ -46,7 +46,7 @@ You can train an agent using:
 python -m rl_zoo3.train --algo td3 \
     --env footsteps-planning-right-v0 \
     --gym-packages gym_footsteps_planning \
-    --conf ./footsteps_planning/hyperparams/td3_footsteps.yml
+    --conf ./hyperparams/td3_footsteps.yml
 ```
 
 Where:
