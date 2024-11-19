@@ -1,0 +1,43 @@
+footsteps-planning-v0: &footsteps-planning
+  n_timesteps: !!float 10e6
+  policy: 'MlpPolicy'
+  gamma: 0.98
+  buffer_size: 200000
+  learning_starts: 10000
+  noise_type: 'normal'
+  noise_std: 0.1
+  gradient_steps: -1
+  train_freq: [1, "episode"]
+  learning_rate: !!float 1e-3
+  policy_kwargs: "dict(net_arch=[400, 300],activation_fn=nn.LeakyReLU)"
+
+footsteps-planning-right-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-v0:
+    <<: *footsteps-planning
+footsteps-planning-any-v0:
+    <<: *footsteps-planning
+footsteps-planning-right-withball-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-withball-v0:
+    <<: *footsteps-planning
+footsteps-planning-any-withball-v0:
+    <<: *footsteps-planning
+footsteps-planning-right-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-any-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-right-withball-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-withball-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-any-withball-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-right-obstacle-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-obstacle-multigoal-v0:
+    <<: *footsteps-planning              
+footsteps-planning-any-obstacle-multigoal-v0:
+    <<: *footsteps-planning
