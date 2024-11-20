@@ -52,7 +52,7 @@ python -m rl_zoo3.train --algo td3 \
 Where:
 * `--algo td3` is the RL algorithm to use (TD3 in this case).
 * `--env footsteps-planning-right-v0` is the environment to train on (see below).
-* `--conf ./footsteps_planning/hyperparams/td3_footsteps.yml` is the hyperparameters file to use.
+* `--conf ./hyperparams/td3_footsteps.yml` is the hyperparameters file to use.
 
 The trained agent will be stored in the `.\log\[algo-name]\[env-name]_[exp-id]` folder from the current working directory.
 
