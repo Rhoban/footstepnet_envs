@@ -1,7 +1,7 @@
 [![codestyle](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # FootStepNet Envs : Footsteps Planning RL Environments for Fast On-line Bipedal Footstep Planning and Forecasting
-<img src="https://github.com/user-attachments/assets/8626760c-24c5-4817-89ff-fea3845e7010" align="right" width="50%"/>
+<img src="https://github.com/user-attachments/assets/056cf809-544b-4a97-b35f-bb06a846bae7" align="right" width="50%"/>
 
 These environments are dedicated to train efficient agents that can plan and forecast bipedal robot footsteps in order to go to a target location possibly avoiding obstacles.
 They are designed to be used with Reinforcement Learning (RL) algorithms (as implemented in [Stable Baselines3](https://github.com/DLR-RM/stable-baselines3)).
@@ -158,7 +158,7 @@ Below are the customizable options for the `FootstepsPlanningEnv` environment:
 
 ### Placer without obstacle/ball
 
-<img src="https://github.com/user-attachments/assets/7f0ece2b-cb39-4221-ac06-50c74102c0e0" align="right" width="25%"/>
+<img src="https://github.com/user-attachments/assets/56a64d7d-7ff5-4c93-9832-0f8c3c0b9b03" align="right" width="25%"/>
 
 #### Environment names
 
@@ -180,7 +180,7 @@ The target foot is fixed (*right* or *left*) or randomly generated (*any*) at ea
 
 ### Placer with a ball
 
-<img src="https://github.com/user-attachments/assets/20cd9581-f246-45bf-b32f-dd759a818bec" align="right" width="25%"/>
+<img src="https://github.com/user-attachments/assets/96818653-0847-444f-935f-5e224c357a11" align="right" width="25%"/>
 
 #### Environment names
 
@@ -202,7 +202,7 @@ The target foot is fixed (*right* or *left*) or randomly generated (*any*) at ea
 
 ### Multi-goal placer without obstacle/ball
 
-<img src="https://github.com/user-attachments/assets/0d276c47-95e0-4002-a6a3-fd7e6bc3b5d3" align="right" width="25%"/>
+<img src="https://github.com/user-attachments/assets/2980adc3-eecc-4f2c-a60b-cca85eda9aaa" align="right" width="25%"/>
 
 #### Environment names 
 
@@ -225,7 +225,7 @@ The target foot is fixed (*right* or *left*) or randomly generated (*any*) at ea
 
 ### Multi-goal placer with a ball
 
-<img src="https://github.com/user-attachments/assets/851bb15a-f502-483c-a743-211d7bd8dc71" align="right" width="25%"/>
+<img src="https://github.com/user-attachments/assets/f6256f1e-a478-4d5d-a076-b98294327eb2" align="right" width="25%"/>
 
 #### Environment names
 
@@ -248,7 +248,7 @@ The target foot is fixed (*right* or *left*) or randomly generated (*any*) at ea
 
 ### Multi-goal placer with size-variable obstacle 
 
-<img src="https://github.com/user-attachments/assets/0159cd08-2ccc-4e87-9c8e-84384553fedd" align="right" width="25%"/>
+<img src="https://github.com/user-attachments/assets/4ac73b7a-3325-441f-9fad-47998c0969ed" align="right" width="25%"/>
 
 #### Environment names 
 
