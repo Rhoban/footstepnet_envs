@@ -28,7 +28,7 @@ class Simulator:
 
         # Rendering parameters
         self.screen = None
-        self.size: tuple  = (1024, 800)
+        self.size: tuple = (1024, 800)
         self.pixels_per_meter: int = 200
         # Demo mode
         # self.size = (1920, 1080)
@@ -65,9 +65,7 @@ class Simulator:
         """
         self.obstacles = []
 
-    def add_obstacle(
-        self, position: np.ndarray, radius: float, color: tuple = (255, 128, 0, 128)
-    ):
+    def add_obstacle(self, position: np.ndarray, radius: float, color: tuple = (255, 128, 0, 128)):
         """
         Adds an obstacle to the environment
         """
@@ -143,16 +141,9 @@ class Simulator:
             return
 
         for i in range(len(self.path) - 1):
-            ptA = (
-                self.T_screen_world @ np.array([self.path[i][0], self.path[i][1], 1]).T
-            )
-            ptB = (
-                self.T_screen_world
-                @ np.array([self.path[i + 1][0], self.path[i + 1][1], 1]).T
-            )
-            pygame.draw.line(
-                surface, (255, 50, 215), (ptA[0], ptA[1]), (ptB[0], ptB[1]), 3
-            )
+            ptA = self.T_screen_world @ np.array([self.path[i][0], self.path[i][1], 1]).T
+            ptB = self.T_screen_world @ np.array([self.path[i + 1][0], self.path[i + 1][1], 1]).T
+            pygame.draw.line(surface, (255, 50, 215), (ptA[0], ptA[1]), (ptB[0], ptB[1]), 3)
 
     def draw_footstep(
         self,
@@ -187,7 +178,7 @@ class Simulator:
 
         if fill:
             pygame.draw.polygon(surface, color, result)
-            pygame.draw.aalines(surface, (0, 0, 0, alpha), True, result)
+            pygame.draw.aalines(surface, (0, 0, 0, int(alpha)), True, result)
         else:
             pygame.draw.polygon(surface, color, result, width=3)
 
@@ -224,9 +215,7 @@ class Simulator:
             pygame.init()
             self.screen = pygame.display.set_mode(self.size, 0, 32)
 
-        pygame.draw.rect(
-            self.screen, (255, 255, 255), (0, 0, self.size[0], self.size[1])
-        )
+        pygame.draw.rect(self.screen, (255, 255, 255), (0, 0, self.size[0], self.size[1]))
 
         self.draw_grid()
 
@@ -264,9 +253,7 @@ class Simulator:
         index = 0
         for side, T_world_foot in self.footsteps:
             index += 1
-            self.draw_footstep(
-                side, T_world_foot, pow(index / len(self.footsteps), 3), surface
-            )
+            self.draw_footstep(side, T_world_foot, pow(index / len(self.footsteps), 3), surface)
 
         for extra_footstep in self.extra_footsteps:
             side, pose = extra_footstep

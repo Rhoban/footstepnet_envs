@@ -1,0 +1,47 @@
+  # CrossQ Paper hyperparameters
+footsteps-planning-v0: &footsteps-planning
+  n_timesteps: !!float 15e6
+  policy: 'MlpPolicy'
+  learning_rate: !!float 0.001
+  buffer_size: 1000000
+  batch_size: 256
+  n_envs: 16
+  gamma: 0.99
+  ent_coef: 'auto'
+  train_freq: 4
+  gradient_steps: 512
+  learning_starts: 100000
+  policy_kwargs: "dict(
+    net_arch=[384, 256]
+  )"
+
+footsteps-planning-right-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-v0:
+    <<: *footsteps-planning
+footsteps-planning-any-v0:
+    <<: *footsteps-planning
+footsteps-planning-right-withball-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-withball-v0:
+    <<: *footsteps-planning
+footsteps-planning-any-withball-v0:
+    <<: *footsteps-planning
+footsteps-planning-right-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-any-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-right-withball-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-withball-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-any-withball-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-right-obstacle-multigoal-v0:
+    <<: *footsteps-planning
+footsteps-planning-left-obstacle-multigoal-v0:
+    <<: *footsteps-planning              
+footsteps-planning-any-obstacle-multigoal-v0:
+    <<: *footsteps-planning

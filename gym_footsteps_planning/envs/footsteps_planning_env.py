@@ -1,19 +1,19 @@
 import gymnasium
 import math
 import numpy as np
-from collections import OrderedDict
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Optional
 from gymnasium import spaces
 from gym_footsteps_planning.footsteps_simulator.simulator import Simulator as FootstepsSimulator
 from gym_footsteps_planning.footsteps_simulator import transform as tr
 
 
 class FootstepsPlanningEnv(gymnasium.Env):
-    metadata = {"render_modes": ["human"],
-                "render_fps": 30}
+    metadata = {"render_modes": ["human"], "render_fps": 30}
 
-    def __init__(self, options: dict = {}, train: bool = False, visualize: bool = False, render_mode: str = "none"):
-        defaults = {
+    def __init__(
+        self, options: Optional[dict] = None, train: bool = False, visualize: bool = False, render_mode: str = "none"
+    ):
+        self.options = {
             # Maximum steps
             "max_dx_forward": 0.08,  # [m]
             "max_dx_backward": 0.03,  # [m]
@@ -26,7 +26,7 @@ class FootstepsPlanningEnv(gymnasium.Env):
             "has_obstacle": False,
             "obstacle_max_radius": 0.25,  # [m]
             "obstacle_radius": None,  # [m]
-            "obstacle_position": np.array([0, 0]),  # [m,m]
+            "obstacle_position": np.array([0, 0], dtype=np.float32),  # [m,m]
             # Which foot is targeted (any, left or right)
             "foot": "any",
             # Foot geometry
@@ -38,8 +38,7 @@ class FootstepsPlanningEnv(gymnasium.Env):
             # If True, the goal will be sampled in a 4x4m area, else it will be fixed at (0,0)
             "multi_goal": False,
         }
-        options = {**defaults, **options}
-        self.options: dict = options
+        self.options.update(options or {})
 
         # Render mode
         self.visualize: bool = visualize
@@ -51,13 +50,19 @@ class FootstepsPlanningEnv(gymnasium.Env):
         self.simulator.foot_width = self.options["foot_width"]
 
         # Maximum speed in each dimension
-        self.min_step = np.array([-options["max_dx_backward"], -options["max_dy"], -options["max_dtheta"]])
-        self.max_step = np.array([options["max_dx_forward"], options["max_dy"], options["max_dtheta"]])
+        self.min_step = np.array(
+            [-self.options["max_dx_backward"], -self.options["max_dy"], -self.options["max_dtheta"]], dtype=np.float32
+        )
+        self.max_step = np.array(
+            [self.options["max_dx_forward"], self.options["max_dy"], self.options["max_dtheta"]], dtype=np.float32
+        )
 
         # Action space is target step size (dx, dy, dtheta)
         # To keep 0 as "not moving", we use maxStep instead of maxBackwardStep,
         # but the speed is clipped when stepping
-        self.action_high = np.array([options["max_dx_forward"], options["max_dy"], options["max_dtheta"]])
+        self.action_high = np.array(
+            [self.options["max_dx_forward"], self.options["max_dy"], self.options["max_dtheta"]], dtype=np.float32
+        )
         self.action_low = -self.action_high
 
         self.action_space = spaces.Box(self.action_low, self.action_high)
@@ -72,9 +77,14 @@ class FootstepsPlanningEnv(gymnasium.Env):
         # - x obstacle position in the frame of the foot
         # - y obstacle position in the frame of the foot
         # - the obstacle radius
-        max_diag_env = np.sqrt(2 * (4 ** 2))
-        self.state_low_goal = np.array([-max_diag_env, -max_diag_env, -1, -1, 0, -max_diag_env, -max_diag_env, 0])
-        self.state_high_goal = np.array([max_diag_env, max_diag_env, 1, 1, 1, max_diag_env, max_diag_env, options["obstacle_max_radius"]])
+        max_diag_env = np.sqrt(2 * (4**2))
+        self.state_low_goal = np.array(
+            [-max_diag_env, -max_diag_env, -1, -1, 0, -max_diag_env, -max_diag_env, 0], dtype=np.float32
+        )
+        self.state_high_goal = np.array(
+            [max_diag_env, max_diag_env, 1, 1, 1, max_diag_env, max_diag_env, self.options["obstacle_max_radius"]],
+            dtype=np.float32,
+        )
 
         self.observation_space = spaces.Box(self.state_low_goal, self.state_high_goal)
 
@@ -93,7 +103,8 @@ class FootstepsPlanningEnv(gymnasium.Env):
                 T_support_target[1, 2],  # y
                 T_support_target[0, 0],  # cos(theta)
                 T_support_target[1, 0],  # sin(theta)
-            ]
+            ],
+            dtype=np.float32,
         )
 
         if self.options["has_obstacle"]:
@@ -112,10 +123,19 @@ class FootstepsPlanningEnv(gymnasium.Env):
             if self.options["has_obstacle"]:
                 self.support_obstacle[1] = -self.support_obstacle[1]
 
-        state = [
-            *support_target,
-            is_target_foot,
-        ] + ([*self.support_obstacle, self.obstacle_radius] if self.options["has_obstacle"] else [0, 0, 0])
+        # state = [
+        #     *support_target,
+        #     is_target_foot,
+        # ] + ([*self.support_obstacle, self.obstacle_radius] if self.options["has_obstacle"] else [0, 0, 0])
+
+        state = np.array(
+            [
+                *support_target,
+                is_target_foot,
+            ]
+            + ([*self.support_obstacle, self.obstacle_radius] if self.options["has_obstacle"] else [0, 0, 0]),
+            dtype=np.float32,
+        )
 
         state = np.array(state, dtype=np.float32)
 
@@ -132,7 +152,8 @@ class FootstepsPlanningEnv(gymnasium.Env):
                 self.options["max_dx_forward"] if step[0] >= 0 else self.options["max_dx_backward"],
                 self.options["max_dy"],
                 self.options["max_dtheta"],
-            ]
+            ],
+            dtype=np.float32,
         )
         clipped_step = step / factor
 
@@ -167,7 +188,7 @@ class FootstepsPlanningEnv(gymnasium.Env):
 
         distance = np.linalg.norm(state[:2])
         target_theta = self.target_foot_pose[2]
-        theta_error = np.arccos(np.clip(np.dot(state[2:4], np.array([1, 0])), -1.0, 1.0))
+        theta_error = np.arccos(np.clip(np.dot(state[2:4], np.array([1, 0])), -1.0, 1.0), dtype=np.float32)
 
         is_desired_foot = state[4] == 1
 
@@ -181,7 +202,9 @@ class FootstepsPlanningEnv(gymnasium.Env):
             for sx in [-1, 1]:
                 for sy in [-1, 1]:
                     # One of the corners of feet is walking in the forbidden area, punishing this with negative reward
-                    P_corner_foot = np.array([sx * self.simulator.foot_length / 2, sy * self.simulator.foot_width / 2])
+                    P_corner_foot = np.array(
+                        [sx * self.simulator.foot_length / 2, sy * self.simulator.foot_width / 2], dtype=np.float32
+                    )
 
                     if np.linalg.norm(P_corner_foot - support_obstacle) < obstacle_radius:
                         in_obstacle = True
@@ -204,12 +227,13 @@ class FootstepsPlanningEnv(gymnasium.Env):
 
         return state, reward, terminated, False, {}
 
-    def reset(self, seed: int | None = None, options: dict[str, Any] = {}):
+    def reset(self, seed: int | None = None, options: Optional[dict] = None):
         """
         Resets the environment to a given foot pose and support foot
         """
         # Seeding the environment
         super().reset(seed=seed)
+        options = options or {}
 
         # Getting the options
         start_foot_pose = options.get("start_foot_pose", None)
@@ -250,7 +274,7 @@ class FootstepsPlanningEnv(gymnasium.Env):
             if self.options["multi_goal"]:
                 self.target_foot_pose = self.np_random.uniform([-2, -2, -math.pi], [2, 2, math.pi])
             else:
-                self.target_foot_pose = np.array([0, 0, 0])
+                self.target_foot_pose = np.array([0, 0, 0], dtype=np.float32)
 
         self.simulator.set_desired_goal(*self.target_foot_pose, self.target_support_foot)
 

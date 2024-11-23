@@ -1,8 +1,10 @@
 from .footsteps_planning_env import FootstepsPlanningEnv
 
+
 # Normal envs
 class FootstepsPlanningRightMultiGoalEnv(FootstepsPlanningEnv):
-    def __init__(self, train=False, visualize=False, render_mode="human", options={}):
+    def __init__(self, train=False, visualize=False, render_mode="human", options=None):
+        options = options or {}
         options["shaped"] = True
         options["foot"] = "right"
         options["has_obstacle"] = False
@@ -12,7 +14,8 @@ class FootstepsPlanningRightMultiGoalEnv(FootstepsPlanningEnv):
 
 
 class FootstepsPlanningLeftMultiGoalEnv(FootstepsPlanningEnv):
-    def __init__(self, train=False, visualize=False, render_mode="human", options={}):
+    def __init__(self, train=False, visualize=False, render_mode="human", options=None):
+        options = options or {}
         options["shaped"] = True
         options["foot"] = "left"
         options["has_obstacle"] = False
@@ -22,7 +25,8 @@ class FootstepsPlanningLeftMultiGoalEnv(FootstepsPlanningEnv):
 
 
 class FootstepsPlanningAnyMultiGoalEnv(FootstepsPlanningEnv):
-    def __init__(self, train=False, visualize=False, render_mode="human", options={}):
+    def __init__(self, train=False, visualize=False, render_mode="human", options=None):
+        options = options or {}
         options["shaped"] = True
         options["has_obstacle"] = False
         options["multi_goal"] = True

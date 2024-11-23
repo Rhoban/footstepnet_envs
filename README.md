@@ -1,6 +1,7 @@
 [![codestyle](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 # FootStepNet Envs : Footsteps Planning RL Environments for Fast On-line Bipedal Footstep Planning and Forecasting
+
 <img src="https://github.com/user-attachments/assets/8626760c-24c5-4817-89ff-fea3845e7010" align="right" width="50%"/>
 
 These environments are dedicated to train efficient agents that can plan and forecast bipedal robot footsteps in order to go to a target location possibly avoiding obstacles.
@@ -13,7 +14,7 @@ An example of a trained *FootstepNet* use:
 - **Step 3**: The planner compute all the steps in order to go to the position chosen by the forecast.
 - **Step 4**: The step sequence is executed on the real robot.
 
-Consult the associated article for more informations : [FootstepNet: an Efficient Actor-Critic Method for Fast On-line Bipedal Footstep Planning and Forecasting](https://arxiv.org/pdf/2403.12589) 
+Consult the associated article for more informations : [FootstepNet: an Efficient Actor-Critic Method for Fast On-line Bipedal Footstep Planning and Forecasting](https://arxiv.org/pdf/2403.12589)
 
 ## Installation
 
@@ -35,9 +36,9 @@ pip install rl_zoo3
 
 ## Train the Agent
 
-The easiest way to train the agent is to use (RL Baselines3 Zoo)[https://rl-baselines3-zoo.readthedocs.io/]
+The easiest way to train the agent is to use [RL Baselines3 Zoo](https://rl-baselines3-zoo.readthedocs.io/)
 
-The hyperparameters for the environment are defined in `hyperparameters/[algo-name]_footsteps.yml`.
+The hyperparameters for the environment are defined in `hyperparameters/[algo-name].yml`.
 For now, the best DRL algorithm for this environment is TD3.
 
 You can train an agent using:
@@ -46,13 +47,13 @@ You can train an agent using:
 python -m rl_zoo3.train --algo td3 \
     --env footsteps-planning-right-v0 \
     --gym-packages gym_footsteps_planning \
-    --conf ./footsteps_planning/hyperparams/td3_footsteps.yml
+    --conf ./footsteps_planning/hyperparams/td3.yml
 ```
 
 Where:
-* `--algo td3` is the RL algorithm to use (TD3 in this case).
-* `--env footsteps-planning-right-v0` is the environment to train on (see below).
-* `--conf ./footsteps_planning/hyperparams/td3_footsteps.yml` is the hyperparameters file to use.
+- `--algo td3` is the RL algorithm to use (TD3 in this case).
+- `--env footsteps-planning-right-v0` is the environment to train on (see below).
+- `--conf ./footsteps_planning/hyperparams/td3.yml` is the hyperparameters file to use.
 
 The trained agent will be stored in the `.\log\[algo-name]\[env-name]_[exp-id]` folder from the current working directory.
 
@@ -68,12 +69,12 @@ python -m rl_zoo3.enjoy --algo td3 --exp-id 0 \
 ```
 
 Where:
-* `--algo td3` is the RL algorithm to use (TD3 in this case).
-* `--exp-id 0` is the experiment ID to use (`0` meaning the latest).
-* `--env footsteps-planning-right-v0` is the environment to enjoy on (see below).
-* `--folder logs/` is the folder where the trained agent is stored.
-* `--load-best` is used to load the best agent.
-* `--gym-packages gym_footsteps_planning` is used to register the environment.
+- `--algo td3` is the RL algorithm to use (TD3 in this case).
+- `--exp-id 0` is the experiment ID to use (`0` meaning the latest).
+- `--env footsteps-planning-right-v0` is the environment to enjoy on (see below).
+- `--folder logs/` is the folder where the trained agent is stored.
+- `--load-best` is used to load the best agent.
+- `--gym-packages gym_footsteps_planning` is used to register the environment.
 
 ## Environments
 
@@ -84,7 +85,6 @@ Each environment is available in 3 different versions :
 - *Right* : The target during training is always the right foot.
 - *Left* : The target during training is always the left foot.
 - *Any* : The target during training is either the left or the right foot (with 0.5 probability for each). It means that the trained agent can then have either foot as target.
-
 
 ### Action Space, Observation Space and Reward
 
@@ -155,7 +155,6 @@ Below are the customizable options for the `FootstepsPlanningEnv` environment:
 | `shaped` | Whether to include a reward shaping term | `True` |
 | `multi_goal` | If `True`, the goal is sampled in a 4x4 m area, otherwise fixed at `[0, 0]` | `False` |
 
-
 ### Placer without obstacle/ball
 
 <img src="https://github.com/user-attachments/assets/7f0ece2b-cb39-4221-ac06-50c74102c0e0" align="right" width="25%"/>
@@ -204,13 +203,13 @@ The target foot is fixed (*right* or *left*) or randomly generated (*any*) at ea
 
 <img src="https://github.com/user-attachments/assets/0d276c47-95e0-4002-a6a3-fd7e6bc3b5d3" align="right" width="25%"/>
 
-#### Environment names 
+#### Environment names
 
 - Right foot as target: `footsteps-planning-right-multigoal-v0`
 - Left foot as target: `footsteps-planning-left-multigoal-v0`
 - Alternating feet as target: `footsteps-planning-any-multigoal-v0`
 
-#### Description 
+#### Description
 
 This environment allows to train an agent that place the desired foot of the robot to a different location at each episode.
 
@@ -222,7 +221,6 @@ The starting foot and the starting foot pose are randomly generated at each epis
 
 The target foot is fixed (*right* or *left*) or randomly generated (*any*) at each episode. The target foot pose is randomly generated within a defined range (cf. Observation state).
 
-
 ### Multi-goal placer with a ball
 
 <img src="https://github.com/user-attachments/assets/851bb15a-f502-483c-a743-211d7bd8dc71" align="right" width="25%"/>
@@ -233,7 +231,7 @@ The target foot is fixed (*right* or *left*) or randomly generated (*any*) at ea
 - Left foot as target: `footsteps-planning-left-withball-multigoal-v0`
 - Alternating feet as target: `footsteps-planning-any-withball-multigoal-any-v0`
 
-#### Description 
+#### Description
 
 This environment allows to train an agent that place the desired foot of the robot to a different location at each episode while avoiding an obstacle of a fixed size (for example a ball).
 
@@ -245,18 +243,17 @@ The starting foot and the starting foot pose are randomly generated at each epis
 
 The target foot is fixed (*right* or *left*) or randomly generated (*any*) at each episode. The target foot pose is randomly generated within a defined range (cf. Observation state).
 
-
-### Multi-goal placer with size-variable obstacle 
+### Multi-goal placer with size-variable obstacle
 
 <img src="https://github.com/user-attachments/assets/0159cd08-2ccc-4e87-9c8e-84384553fedd" align="right" width="25%"/>
 
-#### Environment names 
+#### Environment names
 
 - Right foot as target: `footsteps-planning-right-obstacle-multigoal-v0`
 - Left foot as target: `footsteps-planning-left-obstacle-multigoal-v0`
 - Alternating feet as target: `footsteps-planning-any-obstacle-multigoal-v0`
 
-#### Description 
+#### Description
 
 This environment allows to train an agent that place the desired foot of the robot to a different location at each episode while avoiding an obstacle of a variable size.
 
@@ -267,7 +264,6 @@ The starting foot and the starting foot pose are randomly generated at each epis
 #### Goal State
 
 The target foot is fixed (*right* or *left*) or randomly generated (*any*) at each episode. The target foot pose is randomly generated within a defined range (cf. Observation state).
-
 
 ## Citing the Project
 
