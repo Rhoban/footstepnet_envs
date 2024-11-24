@@ -86,7 +86,7 @@ python -m rl_zoo3.enjoy \
     --algo td3 \
     --env footsteps-planning-right-v0 \
     --gym-packages gym_footsteps_planning \
-    --folder logs/ 
+    --folder logs/ \
     --load-best \
     --exp-id 0
 ```
