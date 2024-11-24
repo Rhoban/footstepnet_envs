@@ -3,3 +3,4 @@
 **.zip
 *.egg-info
 **/logs
+**/.vscode

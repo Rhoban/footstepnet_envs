@@ -14,7 +14,7 @@ An example of a trained *FootstepNet* use:
 - **Step 3**: The planner compute all the steps in order to go to the position chosen by the forecast.
 - **Step 4**: The step sequence is executed on the real robot.
 
-Consult the associated article for more informations : [FootstepNet: an Efficient Actor-Critic Method for Fast On-line Bipedal Footstep Planning and Forecasting](https://arxiv.org/pdf/2403.12589)
+Consult the associated article for more information : [FootstepNet: an Efficient Actor-Critic Method for Fast On-line Bipedal Footstep Planning and Forecasting](https://arxiv.org/pdf/2403.12589)
 
 ## Installation
 
@@ -26,15 +26,21 @@ From source:
 pip install -e .
 ```
 
-To train and enjoy, install RL Baselines3 Zoo:
+To train and enjoy using Stable Baselines3 (SB3), install RL Baselines3 Zoo:
 
 ```
 pip install rl_zoo3
 ```
 
-**Warning** : Ensure that `gymnasium==0.29.1` is installed; otherwise, errors may occur.
+To train and enjoy using Stable Baselines Jax (SBX):
+
+```
+pip install sbx-rl
+```
 
 ## Train the Agent
+
+### Using RL Baselines3 Zoo and Stable Baselines3 (SB3)
 
 The easiest way to train the agent is to use [RL Baselines3 Zoo](https://rl-baselines3-zoo.readthedocs.io/)
 
@@ -44,37 +50,67 @@ For now, the best DRL algorithm for this environment is TD3.
 You can train an agent using:
 
 ```bash
-python -m rl_zoo3.train --algo td3 \
+python -m rl_zoo3.train \
+    --algo td3 \
     --env footsteps-planning-right-v0 \
     --gym-packages gym_footsteps_planning \
-    --conf ./hyperparams/td3.yml
+    --conf hyperparams/td3.yml
 ```
 
 Where:
+
 - `--algo td3` is the RL algorithm to use (TD3 in this case).
-- `--env footsteps-planning-right-v0` is the environment to train on (see below).
+- `--env footsteps-planning-right-v0` is the environment to train on (see **Environments** section).
+- `--gym-packages gym_footsteps_planning` is used to register the environment.
 - `--conf ./hyperparams/td3.yml` is the hyperparameters file to use.
 
-The trained agent will be stored in the `.\log\[algo-name]\[env-name]_[exp-id]` folder from the current working directory.
+The trained agent will be stored in the `.\logs\[algo-name]\[env-name]_[exp-id]` folder from the current working directory.
+
+### Using Stable Baselines Jax (SBX)
+
+```bash
+python train_sbx.py \
+    --algo crossq \
+    --env footsteps-planning-right-v0 \
+    --conf hyperparams/crossq.yml
+```
 
 ## Enjoy a Trained Agent
+
+### Using RL Baselines3 Zoo and Stable Baselines3 (SB3)
 
 If a trained agent exists, you can see it in action using:
 
 ```bash
-python -m rl_zoo3.enjoy --algo td3 --exp-id 0 \
+python -m rl_zoo3.enjoy \
+    --algo td3 \
     --env footsteps-planning-right-v0 \
-    --folder logs/ --load-best \
-    --gym-packages gym_footsteps_planning
+    --gym-packages gym_footsteps_planning \
+    --folder logs/ 
+    --load-best \
+    --exp-id 0
 ```
 
 Where:
+
 - `--algo td3` is the RL algorithm to use (TD3 in this case).
-- `--exp-id 0` is the experiment ID to use (`0` meaning the latest).
-- `--env footsteps-planning-right-v0` is the environment to enjoy on (see below).
+- `--env footsteps-planning-right-v0` is the environment to enjoy on (see **Environments** section).
+- `--gym-packages gym_footsteps_planning` is used to register the environment.
 - `--folder logs/` is the folder where the trained agent is stored.
 - `--load-best` is used to load the best agent.
-- `--gym-packages gym_footsteps_planning` is used to register the environment.
+- `--exp-id 0` is the experiment ID to use (`0` meaning the latest).
+
+### Using Stable Baselines Jax (SBX)
+
+```bash
+python enjoy_sbx.py \
+    --algo crossq \
+    --env footsteps-planning-right-v0 \
+    --gym-packages gym_footsteps_planning \
+    --folder logs/ \
+    --load-best \
+    --exp-id 0
+```
 
 ## Environments
 
