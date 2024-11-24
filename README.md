@@ -265,7 +265,7 @@ The target foot is fixed (*right* or *left*) or randomly generated (*any*) at ea
 
 - Right foot as target: `footsteps-planning-right-withball-multigoal-v0`
 - Left foot as target: `footsteps-planning-left-withball-multigoal-v0`
-- Alternating feet as target: `footsteps-planning-any-withball-multigoal-any-v0`
+- Alternating feet as target: `footsteps-planning-any-withball-multigoal-v0`
 
 #### Description
 
