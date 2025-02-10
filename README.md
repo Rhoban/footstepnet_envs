@@ -306,12 +306,13 @@ The target foot is fixed (*right* or *left*) or randomly generated (*any*) at ea
 To cite this repository in publications:
 
 ```bibtex
-@article{footstepnet,
-  title={FootstepNet: an Efficient Actor-Critic Method for Fast On-line Bipedal Footstep Planning and Forecasting},
-  author={Gaspard, Cl{\'e}ment and Passault, Gr{\'e}goire and Daniel, M{\'e}lodie and Ly, Olivier},
-  journal={arXiv preprint arXiv:2403.12589},
-  year={2024}
-}
+@INPROCEEDINGS{footstepnet,
+  author={Gaspard, Clément and Passault, Grégoire and Daniel, Mélodie and Ly, Olivier},
+  booktitle={2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)}, 
+  title={FootstepNet: an Efficient Actor-Critic Method for Fast On-line Bipedal Footstep Planning and Forecasting}, 
+  year={2024},
+  pages={13749-13756},
+  doi={10.1109/IROS58592.2024.10802320}}
 ```
 
 **Note** : The environments were tested with the following packages version :
